@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+
+import { Provider } from "react-redux";
+import { store } from "./store";
+
+import { Router } from "@reach/router";
+
+import { ConnectedDashboard } from "./components/Dashboard";
+import { Nav } from "./components/Nav";
+import { Home } from "./components/Home";
 
 function App() {
+  console.log(store.getState());
+
   return (
-    <div className="App">
+    <Provider store={store}>
+      <Nav pageWrapId={"page-wrap"} outerContainerId={"App"} />
+
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Router>
+          <Home path="/" />
+          <ConnectedDashboard path="dashboard" />
+        </Router>
       </header>
-    </div>
+    </Provider>
   );
 }
 
