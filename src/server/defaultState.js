@@ -9,24 +9,38 @@ export const defaultState = {
     },
     {
       id: "U2",
-      name: "noob",
+      name: "average",
+    },
+    {
+      id: "U3",
+      name: "pro",
     },
   ],
   scores: [
     {
       id: "S1",
-      user: "U1",
-      score: 9999,
-    },
-    {
-      id: "S1",
-      user: "U1",
-      score: 8888,
-    },
-    {
-      id: "S1",
-      user: "U2",
+      userId: "U1",
       score: 0,
+    },
+    {
+      id: "S2",
+      userId: "U2",
+      score: 100,
+    },
+    {
+      id: "S3",
+      userId: "U2",
+      score: 101,
+    },
+    {
+      id: "S4",
+      userId: "U2",
+      score: 50,
+    },
+    {
+      id: "S5",
+      userId: "U3",
+      score: 9999,
     },
   ],
   isPlaying: false,

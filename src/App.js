@@ -6,9 +6,10 @@ import { store } from "./store";
 
 import { Router } from "@reach/router";
 
-import { ConnectedDashboard } from "./components/Dashboard";
-import { Nav } from "./components/Nav";
-import { Home } from "./components/Home";
+import { Nav } from "./components/Nav/Nav";
+import { Home } from "./components/Home/Home";
+import { About } from "./components/About/About";
+import { ConnectedLeaderboard } from "./components/Leaderboard/Leaderboard";
 
 function App() {
   console.log(store.getState());
@@ -18,10 +19,13 @@ function App() {
       <Nav pageWrapId={"page-wrap"} outerContainerId={"App"} />
 
       <header className="App-header">
-        <Router>
-          <Home path="/" />
-          <ConnectedDashboard path="dashboard" />
-        </Router>
+        <div className="App">
+          <Router>
+            <Home path="/" />
+            <About path="about" />
+            <ConnectedLeaderboard path="leaderboard" />
+          </Router>
+        </div>
       </header>
     </Provider>
   );

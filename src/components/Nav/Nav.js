@@ -11,8 +11,8 @@ export const Nav = props => (
     <a id="about" className="menu-item" href="/about">
       About
     </a>
-    <a id="dashboard" className="menu-item" href="/dashboard">
-      Dashboard
+    <a id="leaderboard" className="menu-item" href="/leaderboard">
+      Leaderboard
     </a>
   </Menu>
 );
