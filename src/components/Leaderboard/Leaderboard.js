@@ -1,8 +1,7 @@
 import React from "react";
+import "./Leaderboard.css";
 
 import { connect } from "react-redux";
-
-import "./Leaderboard.css";
 
 export const Leaderboard = ({ users, scores }) => {
   const getUserScore = userId =>
@@ -25,7 +24,6 @@ export const Leaderboard = ({ users, scores }) => {
 
   return (
     <section className="leaderboard">
-      <h1>Leaderboard</h1>
       <div className="container">
         <div className="row">
           <div className="col-md-12">
@@ -55,8 +53,8 @@ export const Leaderboard = ({ users, scores }) => {
 };
 
 const mapStateToProps = state => ({
-  users: state.users,
-  scores: state.scores,
+  users: state.users.users,
+  scores: state.users.scores,
 });
 
 export const ConnectedLeaderboard = connect(mapStateToProps)(Leaderboard);

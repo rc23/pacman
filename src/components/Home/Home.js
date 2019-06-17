@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+import v4 from "uuid/v4";
 
-export const Home = props => (
-  <div>
-    <h1>Home</h1>
-  </div>
-);
+import { ConnectedGame } from "../Game/Game";
+
+export const Home = () => {
+  const [gameId, setGameId] = useState(v4());
+
+  return (
+    <div>
+      <ConnectedGame
+        key={gameId}
+        startNewGame={() => {
+          setGameId(gameId + 1);
+        }}
+      />
+    </div>
+  );
+};

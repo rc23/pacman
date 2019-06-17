@@ -1,7 +1,7 @@
 import React from "react";
-import { bubble as Menu } from "react-burger-menu";
-
 import "./Nav.css";
+
+import { bubble as Menu } from "react-burger-menu";
 
 export const Nav = props => (
   <Menu {...props}>

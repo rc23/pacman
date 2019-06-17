@@ -96,5 +96,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### EXPERIENCES
 
-- **Reach Router instead of React Router** (by @Ryan Florence https://github.com/ryanflorence)
+- **node-uuid** (by @various https://github.com/kelektiv)
+- **reach-router instead of react-router** (by @Ryan Florence https://github.com/ryanflorence)
 - **react-burger-menu** (by @Imogen Wentworth https://github.com/negomi)

@@ -1,0 +1,11 @@
+.board {
+  margin: 0 auto;
+  top: 20px;
+  left: 80px;
+  width: 560px;
+  transform: rotateX(30deg);
+}
+
+.board-row {
+  line-height: 0;
+}

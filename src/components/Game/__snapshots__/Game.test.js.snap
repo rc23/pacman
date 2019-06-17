@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Game renders correctly 1`] = `
+<div
+  className="game"
+>
+  <div
+    className="help"
+  >
+    Pacman
+  </div>
+  <div
+    className="body"
+  >
+    <div
+      className="left"
+    />
+    <div
+      className="right"
+    />
+  </div>
+  <div
+    className="timer"
+  >
+    Time Remaining: 
+    5
+  </div>
+</div>
+`;
