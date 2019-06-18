@@ -6,10 +6,11 @@ import { configureStore } from "./store/";
 
 import { Router } from "@reach/router";
 
+import { Home } from "./containers/Home/Home";
+import { About } from "./containers/About/About";
+import { ConnectedLeaderboard } from "./containers/Leaderboard/Leaderboard";
+
 import { Nav } from "./components/Nav/Nav";
-import { Home } from "./components/Home/Home";
-import { About } from "./components/About/About";
-import { ConnectedLeaderboard } from "./components/Leaderboard/Leaderboard";
 
 const store = configureStore();
 

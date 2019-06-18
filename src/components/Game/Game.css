@@ -1,8 +1,18 @@
 .game {
-  max-width: 500px;
+  max-width: 560px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
+}
+
+.board {
+  width: 560px;
+  transform: rotateX(30deg);
+}
+
+.board-row {
+  width: 560px;
+  line-height: 0;
 }
 
 .game-active {
@@ -18,4 +28,32 @@
   color: #666;
   margin-top: 3px;
   margin-left: 3px;
+}
+
+.square {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+}
+
+.square.wall {
+  background: #666;
+}
+
+.square.dot {
+  background: #e8da5a;
+  border-radius: 50%;
+  height: 5px;
+  width: 5px;
+  margin: 7.5px;
+  box-shadow: 0px 5px 5px #1d1c1c;
+}
+
+.pacman {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  position: absolute;
+  background: url("../../assets/pacman.png") center center no-repeat;
+  background-size: cover;
 }

@@ -12,6 +12,23 @@ export const game = (state = defaultGameState, action) => {
           isGameOver: action.isGameOver,
         },
       };
+    case "UPDATE_DIRECTION":
+      return {
+        ...state,
+        player: {
+          ...state.player,
+          direction: action.direction,
+        },
+      };
+    case "UPDATE_SCORE":
+      return {
+        ...state,
+        player: {
+          ...state.player,
+          score: state.score++,
+        },
+      };
+
     default:
       return state;
   }
