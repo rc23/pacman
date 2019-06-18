@@ -1,6 +1,7 @@
 export const loadState = () => {
   try {
     const serilizedState = localStorage.getItem("state");
+    console.log("loading");
 
     if (serilizedState === null) {
       return undefined;
@@ -14,6 +15,7 @@ export const loadState = () => {
 
 export const saveState = state => {
   try {
+    console.log("saving");
     const serilizedState = JSON.stringify(state);
     localStorage.setItem("state", serilizedState);
   } catch (err) {

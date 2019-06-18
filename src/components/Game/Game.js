@@ -2,29 +2,34 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./Game.css";
 
 import { connect } from "react-redux";
+import { updateScore } from "../../actions";
 
 import { PlayAgain } from "../PlayAgain/PlayAgain";
 
-import { GameMap } from "./GameMap";
+import { getDefaultBoard } from "./GameBoard";
 
-export const Game = ({ game, startNewGame }) => {
-  const [secondsLeft, setSecondsLeft] = useState(60);
+// TODO - Impossible to read this.
+//        Create Board and a Pacman components to split logic
+
+export const Game = props => {
+  const [gameBoard, setGameBoard] = useState(getDefaultBoard());
   const [gameStatus, setGameStatus] = useState("active");
-
-  const [gameMap, setGameMap] = useState(GameMap);
+  const [secondsLeft, setSecondsLeft] = useState(5);
+  const [score, setScore] = useState(0);
   const [x, setX] = useState(1);
   const [y, setY] = useState(1);
   const [rotation, setRotation] = useState("");
-  const [score, setScore] = useState(0);
 
-  const nrColumns = gameMap[0].length;
-  const nrRows = gameMap.length;
+  const nrColumns = gameBoard[0].length;
+  const nrRows = gameBoard.length;
+  const MaxScore = 10;
+  const updateScore = props.updateScore;
 
   const handleUserKeyPress = useCallback(
     event => {
       const { keyCode } = event;
 
-      let newGameMap = gameMap;
+      let newGameMap = gameBoard;
 
       const isMovingRight = keyCode === 39;
       const isMovingLeft = keyCode === 37;
@@ -32,18 +37,18 @@ export const Game = ({ game, startNewGame }) => {
       const isMovingUp = keyCode === 38;
 
       // stepped into a dot
-      if (gameMap[y][x] === 2) {
+      if (gameBoard[y][x] === 2) {
         newGameMap[y][x] = 0;
-        setGameMap(newGameMap);
+        setGameBoard(newGameMap);
         setScore(score + 1);
       }
 
       let nextSquareValue = null;
 
-      if (isMovingRight) nextSquareValue = gameMap[y][x + 1];
-      if (isMovingLeft) nextSquareValue = gameMap[y][x - 1];
-      if (isMovingDown) nextSquareValue = gameMap[y + 1][x];
-      if (isMovingUp) nextSquareValue = gameMap[y - 1][x];
+      if (isMovingRight) nextSquareValue = gameBoard[y][x + 1];
+      if (isMovingLeft) nextSquareValue = gameBoard[y][x - 1];
+      if (isMovingDown) nextSquareValue = gameBoard[y + 1][x];
+      if (isMovingUp) nextSquareValue = gameBoard[y - 1][x];
 
       if (nextSquareValue !== 1) {
         if (isMovingRight && x < nrColumns) {
@@ -71,7 +76,7 @@ export const Game = ({ game, startNewGame }) => {
         setX(0);
       }
     },
-    [gameMap, nrColumns, nrRows, score, x, y]
+    [gameBoard, nrColumns, nrRows, score, x, y]
   );
 
   useEffect(() => {
@@ -82,6 +87,30 @@ export const Game = ({ game, startNewGame }) => {
     };
   }, [handleUserKeyPress]);
 
+  useEffect(() => {
+    let interval = null;
+
+    if (secondsLeft > 0 && gameStatus === "active") {
+      interval = setInterval(() => {
+        setSecondsLeft(secondsLeft - 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [secondsLeft, gameStatus]);
+
+  useEffect(() => {
+    if (secondsLeft === 0 && score < MaxScore) {
+      setGameStatus("lost");
+      updateScore(score);
+      window.removeEventListener("keydown", handleUserKeyPress);
+    } else if (secondsLeft !== 0 && score >= MaxScore) {
+      setGameStatus("won");
+      updateScore(score);
+      window.removeEventListener("keydown", handleUserKeyPress);
+    }
+  }, [handleUserKeyPress, score, secondsLeft, updateScore]);
+
   const styles = {
     left: (x * 100) / nrColumns + "%",
     top: (y * 100) / nrRows + "%",
@@ -89,27 +118,16 @@ export const Game = ({ game, startNewGame }) => {
     transform: rotation,
   };
 
-  useEffect(() => {
-    if (secondsLeft === 0) setGameStatus("lost");
-
-    const interval = setInterval(() => {
-      if (secondsLeft > 0) {
-        setSecondsLeft(secondsLeft - 1);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [secondsLeft]);
-
   return (
     <div className="game">
       <div className="body">
         <div className="timer">Time Remaining: {secondsLeft}</div>
+        <div className="timer">Score: {score}</div>
         <div className="game-active">
           {gameStatus === "active" ? (
             <div className="board">
               <div className="pacman" style={styles} />
-              {gameMap.map((row, i) => (
+              {gameBoard.map((row, i) => (
                 <div key={i} className="board-row">
                   {row.map((item, i) => {
                     let classVal = "";
@@ -125,8 +143,8 @@ export const Game = ({ game, startNewGame }) => {
           ) : null}
         </div>
         <div className="game-lost">
-          {gameStatus === "lost" ? (
-            <PlayAgain onClick={startNewGame} gameStatus={gameStatus} />
+          {gameStatus !== "active" ? (
+            <PlayAgain onClick={props.startNewGame} gameStatus={gameStatus} />
           ) : null}
         </div>
       </div>
@@ -138,5 +156,13 @@ const mapStateToProps = (state, ownProps) => ({
   game: state.game,
   startNewGame: ownProps.startNewGame,
 });
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    updateScore: score => dispatch(updateScore(score)),
+  };
+};
 
-export const ConnectedGame = connect(mapStateToProps)(Game);
+export const ConnectedGame = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Game);

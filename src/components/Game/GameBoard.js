@@ -1,4 +1,4 @@
-export const GameMap = [
+export const getDefaultBoard = () => [
   [
     1,
     1,

@@ -1,18 +1,6 @@
-export const toggleIsGameOver = isGameOver => ({
-  type: "GAME_OVER",
-  isGameOver,
-});
-
-export const updateDirection = direction => ({
-  type: "UPDATE_DIRECTION",
-  direction,
-});
-
-export const updateScore = () => ({
+export const updateScore = score => ({
   type: "UPDATE_SCORE",
-});
-
-export const updateMap = map => ({
-  type: "UPDATE_MAP",
-  map,
+  payload: {
+    score,
+  },
 });

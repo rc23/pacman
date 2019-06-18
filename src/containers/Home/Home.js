@@ -8,7 +8,7 @@ export const Home = () => {
 
   return (
     <div>
-      <ConnectedGame key={gameId} startNewGame={() => setGameId(gameId + 1)} />
+      <ConnectedGame key={gameId} startNewGame={() => setGameId(v4())} />
     </div>
   );
 };
