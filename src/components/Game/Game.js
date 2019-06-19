@@ -11,10 +11,22 @@ import { getDefaultBoard } from "./GameBoard";
 // TODO - Impossible to read this.
 //        Create Board and a Pacman components to split logic
 
+/*
+Directions:
+- U
+- D
+- R
+- L
+*/
+
+const speed = 0.01
+
 export const Game = props => {
   const [gameBoard, setGameBoard] = useState(getDefaultBoard());
   const [gameStatus, setGameStatus] = useState("active");
   const [secondsLeft, setSecondsLeft] = useState(5);
+  const [moveTimer, setMoveTimer] = useState(0);
+  const [direction, setDirection] = useState("R");
   const [score, setScore] = useState(0);
   const [x, setX] = useState(1);
   const [y, setY] = useState(1);
@@ -28,22 +40,36 @@ export const Game = props => {
   const handleUserKeyPress = useCallback(
     event => {
       const { keyCode } = event;
-
-      let newGameMap = gameBoard;
-
       const isMovingRight = keyCode === 39;
       const isMovingLeft = keyCode === 37;
       const isMovingDown = keyCode === 40;
       const isMovingUp = keyCode === 38;
 
-      // stepped into a dot
+      if (isMovingRight) setDirection("R")
+      if (isMovingLeft) setDirection("L")
+      if (isMovingUp) setDirection("U")
+      if (isMovingDown) setDirection("D")
+    },
+    []
+  );
+
+  useEffect(() => {
+      let newGameMap = gameBoard;
+
       if (gameBoard[y][x] === 2) {
         newGameMap[y][x] = 0;
         setGameBoard(newGameMap);
         setScore(score + 1);
       }
+  }, [x, y])
 
+  useEffect(() => {
       let nextSquareValue = null;
+
+      const isMovingRight = direction === "R"
+      const isMovingLeft = direction === "L"
+      const isMovingDown = direction === "D"
+      const isMovingUp =  direction === "U"
 
       if (isMovingRight) nextSquareValue = gameBoard[y][x + 1];
       if (isMovingLeft) nextSquareValue = gameBoard[y][x - 1];
@@ -75,9 +101,13 @@ export const Game = props => {
       if (x === nrColumns - 1 && isMovingRight) {
         setX(0);
       }
-    },
-    [gameBoard, nrColumns, nrRows, score, x, y]
-  );
+  }, [moveTimer])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMoveTimer(moveTimer + 1)
+    }, 1/speed)
+  }, [moveTimer])
 
   useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress);
